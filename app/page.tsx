@@ -1,65 +1,119 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main style={{ maxWidth: 980, margin: "0 auto", padding: 24, fontFamily: "system-ui" }}>
+      <header style={{ marginBottom: 18 }}>
+        <h1 style={{ fontSize: 28, margin: 0 }}>Reserva un cuarto</h1>
+        <p style={{ marginTop: 8, opacity: 0.75 }}>
+          Selecciona fechas disponibles y envía una solicitud. Te confirmaremos por correo.
+        </p>
+      </header>
+
+      <section
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1.2fr 0.8fr",
+          gap: 18,
+        }}
+      >
+        {/* COLUMNA IZQUIERDA */}
+        <div style={{ border: "1px solid rgba(0,0,0,0.08)", borderRadius: 16, padding: 16 }}>
+          <h2 style={{ marginTop: 0, fontSize: 16 }}>Disponibilidad</h2>
+
+          <div
+            style={{
+              marginTop: 12,
+              borderRadius: 14,
+              padding: 14,
+              background: "rgba(0,0,0,0.03)",
+            }}
+          >
+            <p style={{ margin: 0, opacity: 0.8 }}>
+              Aquí irá el calendario.
+            </p>
+            <p style={{ marginTop: 8, fontSize: 12, opacity: 0.6 }}>
+              (En el siguiente subpaso lo volvemos un calendario real.)
+            </p>
+          </div>
+
+          <div style={{ marginTop: 14, fontSize: 12, opacity: 0.7 }}>
+            Tip: después haremos que las fechas ocupadas aparezcan deshabilitadas.
+          </div>
+        </div>
+
+        {/* COLUMNA DERECHA */}
+        <div style={{ border: "1px solid rgba(0,0,0,0.08)", borderRadius: 16, padding: 16 }}>
+          <h2 style={{ marginTop: 0, fontSize: 16 }}>Solicitud</h2>
+          <p style={{ marginTop: 6, opacity: 0.75, fontSize: 13 }}>
+            Completa tus datos. La reserva se confirma cuando sea aprobada.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+          <label style={{ display: "block", fontSize: 12, marginTop: 10 }}>Nombre</label>
+          <input
+            placeholder="Tu nombre"
+            style={{
+              width: "100%",
+              padding: 10,
+              borderRadius: 12,
+              border: "1px solid rgba(0,0,0,0.12)",
+            }}
+          />
+
+          <label style={{ display: "block", fontSize: 12, marginTop: 10 }}>Email</label>
+          <input
+            placeholder="tucorreo@ejemplo.com"
+            type="email"
+            style={{
+              width: "100%",
+              padding: 10,
+              borderRadius: 12,
+              border: "1px solid rgba(0,0,0,0.12)",
+            }}
+          />
+
+          <label style={{ display: "block", fontSize: 12, marginTop: 10 }}>Teléfono (opcional)</label>
+          <input
+            placeholder="55 1234 5678"
+            style={{
+              width: "100%",
+              padding: 10,
+              borderRadius: 12,
+              border: "1px solid rgba(0,0,0,0.12)",
+            }}
+          />
+
+          <label style={{ display: "block", fontSize: 12, marginTop: 10 }}>Notas (opcional)</label>
+          <textarea
+            placeholder="¿A qué hora llegarías, cuántas personas, etc.?"
+            rows={3}
+            style={{
+              width: "100%",
+              padding: 10,
+              borderRadius: 12,
+              border: "1px solid rgba(0,0,0,0.12)",
+              resize: "vertical",
+            }}
+          />
+
+          <button
+            style={{
+              width: "100%",
+              marginTop: 12,
+              padding: 12,
+              borderRadius: 14,
+              border: "none",
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+            onClick={() => alert("En el siguiente paso esto enviará la solicitud 🙂")}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            Enviar solicitud
+          </button>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <footer style={{ marginTop: 28, fontSize: 12, opacity: 0.6 }}>
+        © {new Date().getFullYear()} Reservas
+      </footer>
+    </main>
   );
 }
