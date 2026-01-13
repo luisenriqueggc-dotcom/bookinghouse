@@ -5,7 +5,11 @@ import { DayPicker, DateRange } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 
-export default function BookingCalendar() {
+type Props = {
+  onChange: (range: DateRange | undefined) => void;
+};
+
+export default function BookingCalendar({ onChange }: Props) {
   const [range, setRange] = useState<DateRange | undefined>();
 
   return (
@@ -13,7 +17,10 @@ export default function BookingCalendar() {
       <DayPicker
         mode="range"
         selected={range}
-        onSelect={setRange}
+        onSelect={(r) => {
+          setRange(r);
+          onChange(r);
+        }}
         numberOfMonths={2}
       />
 
