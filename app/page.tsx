@@ -1,7 +1,17 @@
 "use client";
+import { useState } from "react";
+import { format } from "date-fns";
 import BookingCalendar from "../components/BookingCalendar";
 
 export default function Home() {
+const [range, setRange] = useState<any>(null);
+const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+const [phone, setPhone] = useState("");
+const [notes, setNotes] = useState("");
+const [msg, setMsg] = useState<string | null>(null);
+const [loading, setLoading] = useState(false);
+
   return (
     <main style={{ maxWidth: 980, margin: "0 auto", padding: 24, fontFamily: "system-ui" }}>
       <header style={{ marginBottom: 18 }}>
@@ -31,7 +41,7 @@ export default function Home() {
             }}
           >
            <div style={{ marginTop: 12 }}>
-            <BookingCalendar />
+           <BookingCalendar onChange={setRange} />
             </div>
           </div>
 
@@ -49,6 +59,8 @@ export default function Home() {
 
           <label style={{ display: "block", fontSize: 12, marginTop: 10 }}>Nombre</label>
           <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
             placeholder="Tu nombre"
             style={{
               width: "100%",
@@ -60,6 +72,8 @@ export default function Home() {
 
           <label style={{ display: "block", fontSize: 12, marginTop: 10 }}>Email</label>
           <input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
             placeholder="tucorreo@ejemplo.com"
             type="email"
             style={{
@@ -72,6 +86,8 @@ export default function Home() {
 
           <label style={{ display: "block", fontSize: 12, marginTop: 10 }}>Teléfono (opcional)</label>
           <input
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
             placeholder="55 1234 5678"
             style={{
               width: "100%",
@@ -83,6 +99,8 @@ export default function Home() {
 
           <label style={{ display: "block", fontSize: 12, marginTop: 10 }}>Notas (opcional)</label>
           <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
             placeholder="¿A qué hora llegarías, cuántas personas, etc.?"
             rows={3}
             style={{
@@ -104,10 +122,45 @@ export default function Home() {
               fontWeight: 700,
               cursor: "pointer",
             }}
-            onClick={() => alert("En el siguiente paso esto enviará la solicitud 🙂")}
+            onClick={async () => {
+              setMsg(null);
+            
+              if (!range?.from || !range?.to || !name || !email) {
+                setMsg("Te falta seleccionar fechas, nombre y email.");
+                return;
+              }
+            
+              setLoading(true);
+            
+              const checkIn = format(range.from, "yyyy-MM-dd");
+              const checkOut = format(range.to, "yyyy-MM-dd");
+            
+              const res = await fetch("/api/request-booking", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, phone, notes, checkIn, checkOut }),
+              });
+            
+              const data = await res.json();
+              setLoading(false);
+            
+              if (!res.ok) {
+                setMsg(data.error || "Ocurrió un error al enviar.");
+                return;
+              }
+            
+              setMsg("✅ Solicitud enviada. Te confirmaremos por correo.");
+              setName("");
+              setEmail("");
+              setPhone("");
+              setNotes("");
+            }}
+            
           >
-            Enviar solicitud
+           {loading ? "Enviando..." : "Enviar solicitud"}
+           
           </button>
+          {msg && <p style={{ marginTop: 10, fontSize: 13 }}>{msg}</p>}
         </div>
       </section>
 
